@@ -16,11 +16,9 @@
 %table#movies.table.table-striped.col-md-12
   %thead
     %tr
-    -# the link is sorted based on the css style to communicate back to the controllers in model so that the views can display the link to initiate filter action
-      %th{params[:sort] == "title" ? {:class => "hilite"} : {}}= link_to "Movie Title", movies_path(:sort => "title", ratings: params[:ratings]), :id => "title_header", "data-no-turbolink" => "true"
+      %th Movie Title
       %th Rating
-      -#the same action is repeated here, check post on piazza on what jonathan was trying to explain
-      %th{params[:sort] == "release_date" ? {:class => "hilite"} : {}}= link_to "Release Date", movies_path(:sort => "release_date", ratings: params[:ratings]), :id => "release_date_header", "data-no-turbolink" => "true"
+      %th Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|

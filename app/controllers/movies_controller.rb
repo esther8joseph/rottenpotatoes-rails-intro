@@ -13,22 +13,6 @@ class MoviesController < ApplicationController
   end
 
   def index
-    
-    #sort the following movies in the database so that views can display the data from model
-    if params[:sort]
-        #use order from Active Record to filter the movies, @movies preserves the links but need Movie to complete links, 
-      @movies = @movies.order(params[:sort])
-    end
-    
-    #check the key for params to provide filtering
-    if params.key?(:sort_by)
-			session[:sort_by] = params[:sort_by]
-		#check is the key for the session exists to filter
-		elsif session.key?(:sort_by)
-			params[:sort_by] = session[:sort_by]
-			redirect_to movies_path(params) and return
-		end
-		 
 		#check from piazza on post on how to change headers to links
 		@hilite = sort_by = session[:sort_by] #use the css addition
 		@all_ratings = Movie.all_ratings #display all
@@ -42,6 +26,22 @@ class MoviesController < ApplicationController
 			#return all
 			redirect_to movies_path(params) and return
 		end
+		
+		 #check the key for params to provide filtering
+    if params.key?(:sort_by)
+			session[:sort_by] = params[:sort_by]
+		#check is the key for the session exists to filter
+		elsif session.key?(:sort_by)
+			params[:sort_by] = session[:sort_by]
+			redirect_to movies_path(params) and return
+		end
+		
+    #sort the following movies in the database so that views can display the data from model
+    if params[:sort]
+        #use order from Active Record to filter the movies, @movies preserves the links but need Movie to complete links, 
+      @movies = Movie.order(params[:sort])
+    end
+      
 		#initialize on how to verify the filtering of the ratings
 		@checked_ratings = (session[:ratings].keys if session.key?(:ratings)) || @all_ratings
 		#movies are sorted, fix the order error
